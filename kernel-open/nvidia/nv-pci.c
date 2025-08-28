@@ -1354,9 +1354,12 @@ nv_pci_probe
                 pci_dev->subsystem_device,
                 NV_FALSE /* print_legacy_warning */))
     {
-        nv_printf(NV_DBG_ERRORS, "NVRM: ignoring the legacy GPU %04x:%02x:%02x.%x\n",
+        nv_printf(NV_DBG_ERRORS, "NVRM: The NVIDIA GPU %04x:%02x:%02x.%x (PCI ID: %04x:%04x) is not supported by the open kernel modules.\n",
                   NV_PCI_DOMAIN_NUMBER(pci_dev), NV_PCI_BUS_NUMBER(pci_dev),
-                  NV_PCI_SLOT_NUMBER(pci_dev), PCI_FUNC(pci_dev->devfn));
+                  NV_PCI_SLOT_NUMBER(pci_dev), PCI_FUNC(pci_dev->devfn),
+                  pci_dev->vendor, pci_dev->device);
+        nv_printf(NV_DBG_ERRORS, "NVRM: The open kernel modules only support Turing architecture and newer GPUs.\n");
+        nv_printf(NV_DBG_ERRORS, "NVRM: For older GPUs, please use the proprietary NVIDIA driver from nvidia.com or your distribution's package manager.\n");
         goto failed;
     }
 
